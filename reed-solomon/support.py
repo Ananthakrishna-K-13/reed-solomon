@@ -102,3 +102,11 @@ def miller_rabin(n, rounds):
         if y != 1:
             return False
     return True
+
+def getkprimes(a,b,n):
+    primes = []
+    while len(primes) < n:
+        p = rnd(a,b)
+        if miller_rabin(p,10):
+            primes.append(p)
+    return primes
