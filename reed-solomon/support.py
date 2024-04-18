@@ -1,5 +1,5 @@
 import gmpy2
-rs = gmpy2.random_state(hash(gmpy2.random_state()))
+import random
 
 # Converts a string to a mpz bigint object
 def bigint(s):
@@ -7,7 +7,7 @@ def bigint(s):
 
 # Generates and returns a random integer in the range [a,b)
 def rnd(a, b):
-    return gmpy2.mpz_random(rs, b - a) + a
+    return int(a + random.random() * (b-a))
 
 # Returns the remainder when a is divided by b
 def mod(a, b):
