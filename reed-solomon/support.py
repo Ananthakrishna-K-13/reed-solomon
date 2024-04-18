@@ -61,7 +61,7 @@ def egcd(a, b):
         if r_dash < r:
             r, s, t, r_dash, s_dash, t_dash = r_dash, s_dash, t_dash, r, s, t
         r_dash, s_dash, t_dash = r_dash - r, s_dash - s, t_dash - t
-        d = r *power(2, e)
+        d = r * power(2, e)
     return [d, s, t]
 
 # Implementation of CRT using EGCD for the inverse
@@ -103,10 +103,18 @@ def miller_rabin(n, rounds):
             return False
     return True
 
-def getkprimes(a,b,n):
+# Returns n random primes between a and b
+def getkprimes(a, b, n):
     primes = []
     while len(primes) < n:
-        p = rnd(a,b)
-        if miller_rabin(p,10):
+        p = rnd(a, b)
+        if miller_rabin(p, 10):
             primes.append(p)
     return primes
+
+# Returns n random numbers between a and b
+def getknumbers(a, b, n):
+    ans = []
+    for _ in range(n):
+        ans.append(int(a + random.random() * (b - a)))
+    return ans
