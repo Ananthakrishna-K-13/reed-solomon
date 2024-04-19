@@ -39,12 +39,15 @@ def powermod(a, b, n):
         b //= 2
     return ans
 
-# Returns the GCD d of 2 positive integers a and b, and integers s and t such that as + bt = d
-def egcd(a, b):
+# Returns the list of r,s,t in the egcd algorithm. Last element of r is the gcd
+def egcd(a,b):
     r, r_dash, e = a, b, 0
+    r_list, s_list, t_list = [], [], []
+
     while mod(r, 2) == 0 and mod(r_dash, 2) == 0:
-        r, r_dash, e = r//2, r_dash//2, e + 1
+        r, r_dash, e = r // 2, r_dash // 2, e + 1
     a_dash, b_dash, s, t, s_dash ,t_dash = r, r_dash, 1, 0, 0, 1
+
     while r_dash != 0:
         while mod(r, 2) == 0:
             r //= 2
@@ -52,17 +55,25 @@ def egcd(a, b):
                 s, t = s // 2, t // 2
             else:
                 s, t = (s + b_dash) // 2, (t - a_dash) // 2
+            r_list.append(r * power(2, e))
+            s_list.append(s)
+            t_list.append(t)
+
         while mod(r_dash, 2) == 0:
             r_dash //= 2
             if mod(s_dash, 2) == 0 and mod(t_dash, 2) == 0:
                 s_dash, t_dash = s_dash // 2, t_dash // 2
             else:
                 s_dash, t_dash = (s_dash + b_dash) // 2, (t_dash - a_dash) // 2
+            r_list.append(r_dash * power(2, e))
+            s_list.append(s_dash)
+            t_list.append(t_dash)
+
         if r_dash < r:
             r, s, t, r_dash, s_dash, t_dash = r_dash, s_dash, t_dash, r, s, t
         r_dash, s_dash, t_dash = r_dash - r, s_dash - s, t_dash - t
-        d = r * power(2, e)
-    return [d, s, t]
+
+    return [r_list, s_list, t_list]
 
 # Implementation of CRT using EGCD for the inverse
 def crt(n_list, a_list):
@@ -73,7 +84,7 @@ def crt(n_list, a_list):
     for n in n_list:
         Ni = N // n
         N_list.append(Ni)
-        temp = egcd(Ni, n)[1]
+        temp = egcd(Ni, n)[1][-1]
         if(temp < 0) :
             temp = mod(egcd(Ni, n)[1], n)
         N_bar_list.append(temp)
