@@ -75,22 +75,23 @@ def egcd(a,b):
 
     return [r_list, s_list, t_list]
 
-# Implementation of CRT using EGCD for the inverse
-def crt(n_list, a_list):
-    N, x = 1, 0
-    N_list, N_bar_list = [], []
-    for n in n_list:
-        N = N * n
-    for n in n_list:
-        Ni = N // n
-        N_list.append(Ni)
-        temp = egcd(Ni, n)[1][-1]
-        if temp < 0:
-            temp = mod(egcd(Ni, n)[1][-1], n)
-        N_bar_list.append(temp)
-    for i in range(len(n_list)):
-        x += a_list[i] * N_list[i] * N_bar_list[i]
-    return mod(x, N)
+# Modular inverse of x mod N if gcd(x,N) is 1
+def modinv(x, N):
+    gcd, ans = egcd(x, N)[0][-1], egcd(x,N)[1][-1]
+    if gcd == 1:
+        return mod(ans, N)
+    raise ValueError("Inverse doesn't exist")
+
+# Chinese remainder theorem
+def crt(moduli, remainders):
+    N, ans = 1, 0
+    for n in moduli:
+        N *= n
+    for mod, rem in zip(moduli, remainders):
+        Ni = N // mod
+        Mi = modinv(Ni, mod)
+        ans += rem * Ni * Mi
+    return ans % N
 
 # Miller - Rabin test for checking primality
 def miller_rabin(n, rounds):
@@ -119,7 +120,7 @@ def getkprimes(a, b, n):
     primes = []
     while len(primes) < n:
         p = rnd(a, b)
-        if miller_rabin(p, 10):
+        if miller_rabin(p, 10) and p not in primes:
             primes.append(p)
     return primes
 
@@ -129,5 +130,3 @@ def getknumbers(a, b, n):
     for _ in range(n):
         ans.append(bigint(a + random.random() * (b - a)))
     return ans
-
-print(rnd(10**7, 10**18))
