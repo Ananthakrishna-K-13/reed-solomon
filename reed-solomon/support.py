@@ -86,7 +86,7 @@ def crt(n_list, a_list):
         N_list.append(Ni)
         temp = egcd(Ni, n)[1][-1]
         if temp < 0:
-            temp = mod(egcd(Ni, n)[1], n)
+            temp = mod(egcd(Ni, n)[1][-1], n)
         N_bar_list.append(temp)
     for i in range(len(n_list)):
         x += a_list[i] * N_list[i] * N_bar_list[i]
