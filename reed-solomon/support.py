@@ -78,7 +78,7 @@ def crt(n_list, a_list):
             temp = mod(egcd(Ni, n)[1], n)
         N_bar_list.append(temp)
     for i in range(len(n_list)):
-        x += a_list[i] * n_list[i] * N_bar_list[i]
+        x += a_list[i] * N_list[i] * N_bar_list[i]
     return mod(x, N)
 
 # Miller - Rabin test for checking primality
