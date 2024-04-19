@@ -7,7 +7,7 @@ def bigint(s):
 
 # Generates and returns a random integer in the range [a,b)
 def rnd(a, b):
-    return int(a + random.random() * (b-a))
+    return bigint(a + random.random() * (b-a))
 
 # Returns the remainder when a is divided by b
 def mod(a, b):
@@ -85,7 +85,7 @@ def crt(n_list, a_list):
         Ni = N // n
         N_list.append(Ni)
         temp = egcd(Ni, n)[1][-1]
-        if(temp < 0) :
+        if temp < 0:
             temp = mod(egcd(Ni, n)[1], n)
         N_bar_list.append(temp)
     for i in range(len(n_list)):
@@ -127,5 +127,7 @@ def getkprimes(a, b, n):
 def getknumbers(a, b, n):
     ans = []
     for _ in range(n):
-        ans.append(int(a + random.random() * (b - a)))
+        ans.append(bigint(a + random.random() * (b - a)))
     return ans
+
+print(rnd(10**7, 10**18))
