@@ -1,6 +1,7 @@
 from support import *
 import random
 from sympy.ntheory.modular import solve_congruence
+from sympy import isprime
 
 def test_egcd():
     for _ in range(10):
@@ -31,5 +32,16 @@ def test_crt():
     print("CRT PASS")
     return None
 
+def test_miller():
+    for i in range(10):
+        ans = getknumbers(100000000,10000000000,100)
+        for i in ans:
+            if miller_rabin(i,10) != isprime(i):
+                print("MILLER FAIL")
+                return None
+    print("MILLER PASS")
+    return None
+
 test_egcd()
 test_crt()
+test_miller()

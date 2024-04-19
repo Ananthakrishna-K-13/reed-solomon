@@ -1,15 +1,26 @@
 import gmpy2
 import random
 
-# Converts a string to a mpz bigint object
+'''
+Support functions for reed_solomon.py
+
+bigint(s) -> Converts a string to a mpz bigint object
+rnd(a,b) -> Returns a random integer in range [a,b)
+mod(a,b) -> Returns a % b, always in range 0 to b-1
+power(a,b) -> Returns a**b
+powermod(a,b,n) -> Returns a**b % n
+egcd(a,b) -> Returns a list of 3 lists r,s,t, such that as + bt = r for each index. The last entry of r is the gcd
+modinv(x,N) -> Returns inverse of x modulo N if their gcd is 1, using egcd
+crt(moduli,remainders) -> Returns solution to linear congruences x = moduli mod remainder
+miller_rabin(n,rounds) -> Returns if a number is prime or not by doing n rounds of Miller-Rabin test
+'''
+
 def bigint(s):
     return gmpy2.mpz(s)
 
-# Generates and returns a random integer in the range [a,b)
 def rnd(a, b):
     return bigint(a + random.random() * (b-a))
 
-# Returns the remainder when a is divided by b
 def mod(a, b):
     ans = a - b * (a // b)
     if ans < 0 and b > 0:
@@ -18,7 +29,6 @@ def mod(a, b):
         ans -= b
     return ans
 
-# Returns a^b
 def power(a, b):
     ans = 1
     while b > 0:
@@ -28,7 +38,6 @@ def power(a, b):
         b //= 2
     return ans
 
-# Returns (a^b) mod n
 def powermod(a, b, n):
     a = mod(a, n)
     ans = 1
@@ -39,7 +48,6 @@ def powermod(a, b, n):
         b //= 2
     return ans
 
-# Returns the list of r,s,t in the egcd algorithm. Last element of r is the gcd
 def egcd(a,b):
     r, r_dash, e = a, b, 0
     r_list, s_list, t_list = [], [], []
@@ -75,14 +83,12 @@ def egcd(a,b):
 
     return [r_list, s_list, t_list]
 
-# Modular inverse of x mod N if gcd(x,N) is 1
 def modinv(x, N):
     gcd, ans = egcd(x, N)[0][-1], egcd(x,N)[1][-1]
     if gcd == 1:
         return mod(ans, N)
     raise ValueError("Inverse doesn't exist")
 
-# Chinese remainder theorem
 def crt(moduli, remainders):
     N, ans = 1, 0
     for n in moduli:
@@ -93,7 +99,6 @@ def crt(moduli, remainders):
         ans += rem * Ni * Mi
     return ans % N
 
-# Miller - Rabin test for checking primality
 def miller_rabin(n, rounds):
     if n in [2, 3]:
         return True
@@ -115,7 +120,6 @@ def miller_rabin(n, rounds):
             return False
     return True
 
-# Returns n random primes between a and b
 def getkprimes(a, b, n):
     primes = []
     while len(primes) < n:
@@ -124,7 +128,6 @@ def getkprimes(a, b, n):
             primes.append(p)
     return primes
 
-# Returns n random numbers between a and b
 def getknumbers(a, b, n):
     ans = []
     for _ in range(n):
