@@ -133,3 +133,20 @@ def getknumbers(a, b, n):
     for _ in range(n):
         ans.append(bigint(a + random.random() * (b - a)))
     return ans
+
+def extgcd(a,b):
+    r,rdash,s,sdash,t,tdash = a,b,1,0,0,1
+    rlist,slist,tlist = [r],[s],[t]
+    while(rdash!=0):
+        q,rddash = r//rdash,mod(r,rdash)
+        r,s,t,rdash,sdash,tdash = rdash,sdash,tdash,rddash,s-sdash*q,t-tdash*q
+        rlist.append(r)
+        slist.append(s)
+        tlist.append(t)
+    return [rlist,slist,tlist]
+    
+
+
+# print(extgcd(100,35)[0])
+# print(extgcd(100,35)[1])
+# print(extgcd(100,35)[2])
