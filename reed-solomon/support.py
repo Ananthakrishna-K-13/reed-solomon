@@ -120,12 +120,13 @@ def miller_rabin(n, rounds):
             return False
     return True
 
-def getkprimes(a, b, n):
+def getkprimes(n):
     primes = []
+    s = 3
     while len(primes) < n:
-        p = rnd(a, b)
-        if miller_rabin(p, 10) and p not in primes:
-            primes.append(p)
+        if miller_rabin(s,10):
+            primes.append(s)
+        s += 2
     return primes
 
 def getknumbers(a, b, n):
@@ -143,10 +144,5 @@ def extgcd(a,b):
         rlist.append(r)
         slist.append(s)
         tlist.append(t)
+
     return [rlist,slist,tlist]
-    
-
-
-# print(extgcd(100,35)[0])
-# print(extgcd(100,35)[1])
-# print(extgcd(100,35)[2])
