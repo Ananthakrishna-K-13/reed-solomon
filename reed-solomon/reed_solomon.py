@@ -75,7 +75,7 @@ def main():
     stat = ReedSolomonReceive(ReedSolomonSend(a))
     # print(stat)
     if(stat == -1):
-        print(mu)
+        # print(mu)
         print("Message could not be reconstructed")
     else:
         print("Message recieved:")

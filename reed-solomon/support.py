@@ -89,32 +89,18 @@ def modinv(x, N):
         return mod(ans, N)
     raise ValueError("Inverse doesn't exist")
 
-# def crt(moduli, remainders):
-#     N, ans = 1, 0
-#     for n in moduli:
-#         N *= n
-#     for mod, rem in zip(moduli, remainders):
-#         Ni = N // mod
-#         Mi = modinv(Ni, mod)
-#         ans += rem * Ni * Mi
-#     return ans % N
 
-def crt(primes_list,a_list):
-    n=gmpy2.mpz(1)
-    for i in primes_list:
-        n=n*i
-    k=len(primes_list)
-    nstar=[gmpy2.mpz(1) for i in range(k)]
-    e=[gmpy2.mpz(1) for i in range(k)]
-    for i in range(k):
-        nstar[i]=n//primes_list[i]
-        b=mod(nstar[i],primes_list[i])
-        t=modinv(b,primes_list[i])
-        e[i]=nstar[i]*t
-    ans=gmpy2.mpz(0)
-    for i in range(k):
-        ans=mod(ans+a_list[i]*e[i],n)
+def crt(moduli, remainders):
+    N, ans = 1,0
+    for n in moduli:
+        N *= n
+    for i in range (len(moduli)):
+        Ni = N // moduli[i]
+        bi = mod(Ni,moduli[i])
+        Mi = modinv(bi, moduli[i])
+        ans = mod(ans + remainders[i] * Ni * Mi, N)
     return ans
+
 
 def miller_rabin(n, rounds):
     if n in [2, 3]:
